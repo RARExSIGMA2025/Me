@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Techfolio – Your Smart Tech Space</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles for light mode */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #F8FAFC; /* Light Mode Background */
+            color: #1E293B; /* Light Mode Text */
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Dark mode styles */
+        .dark body {
+            background-color: #0F172A; /* Dark Mode Background */
+            color: #F1F5F9; /* Dark Mode Text */
+        }
+        .dark .bg-gray-100 { /* Adjust specific elements for dark mode */
+            background-color: #1a2333;
+        }
+        .dark .bg-white {
+            background-color: #1F2937;
+        }
+        .dark .shadow-md {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
+        }
+        .dark .border-gray-200 {
+            border-color: #374151;
+        }
+
+        /* Hero Section Gradient Animation */
+        .hero-background {
+            background: linear-gradient(45deg, #6366F1, #8B5CF6, #EC4899);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Custom typing effect cursor */
+        .typing-text::after {
+            content: '|';
+            animation: blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: currentColor; }
+        }
+
+        /* Fade-up animation for sections */
+        .fade-up-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-up-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Skill bar animation (simple width transition) */
+        .skill-bar-inner {
+            height: 100%;
+            background-color: #6366F1; /* Accent color */
+            border-radius: 9999px; /* Full rounded */
+            transition: width 1s ease-out;
+            width: 0%; /* Initial state for animation */
+        }
+        .skill-bar-container.animate-skills .skill-bar-inner {
+             /* Set actual widths here, will be done via JS */
+        }
+
+        /* Icon for dark/light toggle (inline SVG) */
+        .toggle-icon {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+        .toggle-icon:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="selection:bg-indigo-300 selection:text-indigo-900">
+
+    <!-- Header & Dark/Light Toggle -->
+    <header class="fixed top-0 w-full z-50 py-4 px-6 md:px-10 flex justify-between items-center bg-transparent transition-colors duration-300">
+        <div class="text-2xl font-bold uppercase tracking-wide text-indigo-600 dark:text-indigo-400">
+            Techfolio
+        </div>
+        <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <!-- Sun icon for light mode, Moon icon for dark mode -->
+            <svg id="sun-icon" class="toggle-icon text-indigo-700 dark:text-gray-300 hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2.25a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM7.472 4.057a.75.75 0 0 1 1.06 0L10.25 5.75a.75.75 0 0 1-1.06 1.06L7.472 5.117a.75.75 0 0 1 0-1.06ZM4.057 7.472a.75.75 0 0 1 0 1.06L5.75 10.25a.75.75 0 0 1-1.06 1.06L4.057 8.532a.75.75 0 0 1 0-1.06ZM2.25 12c0-.414.336-.75.75-.75h2.25a.75.75 0 0 1 0 1.5H3a.75.75 0 0 1-.75-.75ZM4.057 16.528a.75.75 0 0 1 1.06 0L5.75 13.75a.75.75 0 0 1 1.06 1.06L5.117 16.528a.75.75 0 0 1-1.06 0ZM7.472 19.943a.75.75 0 0 1 0-1.06L10.25 16.25a.75.75 0 0 1 1.06 1.06l-1.778 1.778a.75.75 0 0 1-1.06 0ZM12 17.25a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V18a.75.75 0 0 1 .75-.75ZM16.528 19.943a.75.75 0 0 1 0-1.06l1.778-1.778a.75.75 0 0 1 1.06 1.06L17.593 19.943a.75.75 0 0 1-1.06 0ZM19.943 16.528a.75.75 0 0 1 0-1.06L16.25 13.75a.75.75 0 0 1 1.06-1.06l1.778 1.778a.75.75 0 0 1 0 1.06ZM21.75 12a.75.75 0 0 1-.75.75h-2.25a.75.75 0 0 1 0-1.5h2.25a.75.75 0 0 1 .75.75ZM19.943 7.472a.75.75 0 0 1-1.06 0L16.25 5.75a.75.75 0 0 1 1.06-1.06l1.778 1.778a.75.75 0 0 1 0 1.06ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z" />
+            </svg>
+            <svg id="moon-icon" class="toggle-icon text-indigo-700 dark:text-gray-300 hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 0 1 .722-.515C11.661 1.517 13.0 2.31 13.0 4.136v.718c-.896.226-1.75.525-2.556.883L10.233 6.13a.75.75 0 0 1-.741-.412L9.528 1.718ZM15.438 4.671c.79.176 1.48.497 2.054.945l2.457-2.396a.75.75 0 0 1 1.06 1.06L18.55 6.671c.448.574.769 1.264.945 2.054.043.19.068.394.072.6a10.046 10.046 0 0 1-2.916.598c-.29-.681-.59-1.341-.9-1.986a.75.75 0 0 1 .494-1.258ZM12.75 12.75a.75.75 0 0 0-1.5 0v.75c0 .414.336.75.75.75s.75-.336.75-.75v-.75ZM5.485 15.485a.75.75 0 0 0 0-1.06l-1.779-1.778a.75.75 0 0 0-1.06 1.06l1.779 1.778a.75.75 0 0 0 1.06 0ZM7.472 4.057a.75.75 0 0 1 1.06 0L10.25 5.75a.75.75 0 0 1-1.06 1.06L7.472 5.117a.75.75 0 0 1 0-1.06ZM2.25 12c0-.414.336-.75.75-.75h2.25a.75.75 0 0 1 0 1.5H3a.75.75 0 0 1-.75-.75ZM4.057 16.528a.75.75 0 0 1 1.06 0L5.75 13.75a.75.75 0 0 1 1.06 1.06L5.117 16.528a.75.75 0 0 1-1.06 0ZM7.472 19.943a.75.75 0 0 1 0-1.06L10.25 16.25a.75.75 0 0 1 1.06 1.06l-1.778 1.778a.75.75 0 0 1-1.06 0ZM12 17.25a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V18a.75.75 0 0 1 .75-.75ZM16.528 19.943a.75.75 0 0 1 0-1.06l1.778-1.778a.75.75 0 0 1 1.06 1.06L17.593 19.943a.75.75 0 0 1-1.06 0ZM19.943 16.528a.75.75 0 0 1 0-1.06L16.25 13.75a.75.75 0 0 1 1.06-1.06l1.778 1.778a.75.75 0 0 1 0 1.06ZM21.75 12a.75.75 0 0 1-.75.75h-2.25a.75.75 0 0 1 0-1.5h2.25a.75.75 0 0 1 .75.75ZM19.943 7.472a.75.75 0 0 1-1.06 0L16.25 5.75a.75.75 0 0 1 1.06-1.06l1.778 1.778a.75.75 0 0 1 0 1.06ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z" clip-rule="evenodd" />
+            </svg>
+        </button>
+    </header>
+
+    <main>
+        <!-- Home Page (Hero Section) -->
+        <section id="home" class="hero-background flex flex-col justify-center items-center h-screen text-center text-white p-4">
+            <div class="space-y-4">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold uppercase tracking-wide">
+                    Hi, I'm Rohan – Tech Enthusiast
+                </h1>
+                <p class="text-2xl sm:text-3xl lg:text-4xl font-medium typing-text" id="role-text"></p>
+                <div class="mt-8 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 justify-center">
+                    <a href="#projects" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 text-lg">
+                        View Projects
+                    </a>
+                    <a href="https://placehold.co/200x200/F8FAFC/1E293B?text=Resume.pdf" target="_blank" download="Rohan_Resume.pdf" class="bg-white text-indigo-700 hover:bg-gray-200 font-bold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 text-lg">
+                        Download Resume
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 px-6 fade-up-section">
+            <div class="container mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 md:p-12">
+                <h2 class="text-4xl font-extrabold uppercase text-center text-indigo-700 dark:text-indigo-400 mb-12">🙋‍♂️ About Me</h2>
+                <div class="flex flex-col md:flex-row items-center md:space-x-12">
+                    <div class="w-48 h-48 md:w-64 md:h-64 flex-shrink-0 mb-8 md:mb-0">
+                        <img src="https://placehold.co/256x256/6366F1/FFFFFF?text=Rohan" alt="Rohan's Photo" class="rounded-full object-cover w-full h-full border-4 border-indigo-500 dark:border-indigo-400 shadow-xl">
+                    </div>
+                    <div class="flex-grow text-lg leading-relaxed text-center md:text-left">
+                        <p class="mb-4">
+                            Hello! I'm Rohan, a passionate tech enthusiast with a strong drive to learn and build. 💻 My journey in the digital world began with a curiosity for how things work, leading me to dive deep into various technologies.
+                        </p>
+                        <p class="mb-4">
+                            I specialize in <strong class="text-indigo-600 dark:text-indigo-300">Frontend Development</strong>, crafting responsive and engaging user interfaces. I'm also actively expanding my expertise in <strong class="text-indigo-600 dark:text-indigo-300">Backend development</strong>, striving to become a full-stack developer.⚙️
+                        </p>
+                        <p>
+                            When I'm not coding, I enjoy writing about technology and sharing my insights as a <strong class="text-indigo-600 dark:text-indigo-300">Blogger</strong>. My goal is to combine robust functionality with beautiful design to create impactful digital experiences.🚀
+                        </p>
+
+                        <h3 class="text-2xl font-bold uppercase text-indigo-700 dark:text-indigo-400 mt-10 mb-6 text-center md:text-left">My Tech Stack</h3>
+                        <div class="space-y-4 skill-bar-container">
+                            <div class="flex items-center">
+                                <span class="w-24 font-semibold mr-4 text-gray-700 dark:text-gray-300">React</span>
+                                <div class="flex-grow bg-gray-200 dark:bg-gray-700 rounded-full h-4">
+                                    <div class="skill-bar-inner" data-width="90%"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="w-24 font-semibold mr-4 text-gray-700 dark:text-gray-300">Node.js</span>
+                                <div class="flex-grow bg-gray-200 dark:bg-gray-700 rounded-full h-4">
+                                    <div class="skill-bar-inner" data-width="75%"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="w-24 font-semibold mr-4 text-gray-700 dark:text-gray-300">Python</span>
+                                <div class="flex-grow bg-gray-200 dark:bg-gray-700 rounded-full h-4">
+                                    <div class="skill-bar-inner" data-width="80%"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="w-24 font-semibold mr-4 text-gray-700 dark:text-gray-300">MongoDB</span>
+                                <div class="flex-grow bg-gray-200 dark:bg-gray-700 rounded-full h-4">
+                                    <div class="skill-bar-inner" data-width="70%"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="w-24 font-semibold mr-4 text-gray-700 dark:text-gray-300">Git</span>
+                                <div class="flex-grow bg-gray-200 dark:bg-gray-700 rounded-full h-4">
+                                    <div class="skill-bar-inner" data-width="95%"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="w-24 font-semibold mr-4 text-gray-700 dark:text-gray-300">Firebase</span>
+                                <div class="flex-grow bg-gray-200 dark:bg-gray-700 rounded-full h-4">
+                                    <div class="skill-bar-inner" data-width="85%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-20 px-6 bg-gray-100 dark:bg-gray-900 fade-up-section">
+            <div class="container mx-auto">
+                <h2 class="text-4xl font-extrabold uppercase text-center text-indigo-700 dark:text-indigo-400 mb-12">🛠️ My Projects</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                    <!-- Project Card 1 -->
+                    <div class="card bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 transform hover:scale-102 hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700">
+                        <h3 class="text-2xl font-semibold text-indigo-700 dark:text-indigo-300 mb-3">E-commerce Dashboard</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">A responsive admin dashboard for managing products, orders, and users, built with modern web technologies.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-100">React</span>
+                            <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-100">Tailwind CSS</span>
+                            <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-100">Node.js API</span>
+                        </div>
+                        <div class="flex space-x-4">
+                            <a href="#" target="_blank" class="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">Live Demo →</a>
+                            <a href="#" target="_blank" class="text-gray-600 dark:text-gray-300 hover:underline font-medium">GitHub →</a>
+                        </div>
+                    </div>
+
+                    <!-- Project Card 2 -->
+                    <div class="card bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 transform hover:scale-102 hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700">
+                        <h3 class="text-2xl font-semibold text-indigo-700 dark:text-indigo-300 mb-3">Real-time Chat App</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">A real-time messaging application with user authentication and group chat features.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-100">React</span>
+                            <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-100">Firebase</span>
+                            <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-100">Firestore</span>
+                        </div>
+                        <div class="flex space-x-4">
+                            <a href="#" target="_blank" class="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">Live Demo →</a>
+                            <a href="#" target="_blank" class="text-gray-600 dark:text-gray-300 hover:underline font-medium">GitHub →</a>
+                        </div>
+                    </div>
+
+                    <!-- Project Card 3 -->
+                    <div class="card bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 transform hover:scale-102 hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700">
+                        <h3 class="text-2xl font-semibold text-indigo-700 dark:text-indigo-300 mb-3">Personal Blog Platform</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">A simple, minimalist blog platform with markdown support and post management.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-100">Python</span>
+                            <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-100">Flask</span>
+                            <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-100">SQLite</span>
+                        </div>
+                        <div class="flex space-x-4">
+                            <a href="#" target="_blank" class="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">Live Demo →</a>
+                            <a href="#" target="_blank" class="text-gray-600 dark:text-gray-300 hover:underline font-medium">GitHub →</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog / Article Section -->
+        <section id="blog" class="py-20 px-6 fade-up-section">
+            <div class="container mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 md:p-12">
+                <h2 class="text-4xl font-extrabold uppercase text-center text-indigo-700 dark:text-indigo-400 mb-12">📝 My Blog</h2>
+
+                <div class="flex flex-col space-y-8">
+                    <!-- Blog Post 1 -->
+                    <div class="flex flex-col md:flex-row items-center bg-gray-50 dark:bg-gray-700 rounded-xl shadow-sm overflow-hidden transform hover:scale-102 transition-transform duration-300">
+                        <img src="https://placehold.co/300x200/EC4899/FFFFFF?text=Blog+Banner+1" alt="Blog Post 1 Banner" class="w-full md:w-1/3 h-48 md:h-auto object-cover flex-shrink-0">
+                        <div class="p-6 flex-grow">
+                            <h3 class="text-2xl font-semibold text-indigo-700 dark:text-indigo-300 mb-2">The Future of Web Development</h3>
+                            <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">Exploring new trends, frameworks, and technologies shaping the web development landscape. From AI in coding to serverless architectures...</p>
+                            <a href="#" class="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">Read more →</a>
+                        </div>
+                    </div>
+
+                    <!-- Blog Post 2 -->
+                    <div class="flex flex-col md:flex-row items-center bg-gray-50 dark:bg-gray-700 rounded-xl shadow-sm overflow-
